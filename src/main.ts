@@ -233,9 +233,12 @@ export default class TextTransformer extends Plugin {
 			this.settings.model = DEFAULT_SETTINGS.model;
 		}
 
+		// Ensure all settings have a default value, including new ones like geminiSafetySettings
 		for (const key of Object.keys(DEFAULT_SETTINGS) as Array<keyof TextTransformerSettings>) {
 			if (typeof this.settings[key] === "undefined") {
-				(this.settings as any)[key] = DEFAULT_SETTINGS[key];
+				// If a setting from DEFAULT_SETTINGS is not present in loaded settings, assign the default.
+				// This handles cases where new settings are added to the plugin.
+				(this.settings as any)[key] = (DEFAULT_SETTINGS as any)[key];
 			}
 		}
 	}

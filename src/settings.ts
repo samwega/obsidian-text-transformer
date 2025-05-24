@@ -95,6 +95,47 @@ export class TextTransformerSettingsMenu extends PluginSettingTab {
 			});
 		geminiSetting.settingEl.style.borderTop = "none";
 
+		// Gemini Safety Settings Description
+		const geminiSafetyDescContainer = apiModelSectionContents.createDiv();
+		geminiSafetyDescContainer.style.marginTop = "15px";
+		geminiSafetyDescContainer.style.padding = "10px";
+		geminiSafetyDescContainer.style.border = "1px solid var(--background-modifier-border)";
+		geminiSafetyDescContainer.style.borderRadius = "5px";
+		geminiSafetyDescContainer.style.backgroundColor = "var(--background-secondary)";
+
+		const geminiSafetyTitle = geminiSafetyDescContainer.createEl("strong", { text: "Advanced Gemini Safety Settings" });
+		geminiSafetyTitle.style.display = "block";
+		geminiSafetyTitle.style.marginBottom = "5px";
+
+		const geminiSafetyInfo = geminiSafetyDescContainer.createEl("p");
+		geminiSafetyInfo.innerHTML = `
+To customize content safety levels for Gemini models, you can manually edit the <code>geminiSafetySettings</code> field in the plugin's <code>data.json</code> file, located at:
+<br><code>your-vault/.obsidian/plugins/text-transformer/data.json</code>
+<br><br>
+<strong>WARNING:</strong> Modifying these settings, especially to <code>"BLOCK_NONE"</code>, can lead to the generation of potentially harmful, unethical, offensive, or illegal content. You are responsible for the use of the model and compliance with Google's terms of service. Proceed with extreme caution.
+<br><br>
+The <code>geminiSafetySettings</code> field should be an array of objects. Example:
+<pre style="font-size:0.9em; background:var(--background-primary); padding:5px; border-radius:3px; overflow-x:auto;">
+[
+  { "category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE" },
+  { "category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_MEDIUM_AND_ABOVE" },
+  { "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_MEDIUM_AND_ABOVE" },
+  { "category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE" }
+]
+</pre>
+Available thresholds:
+<ul>
+  <li><code>"BLOCK_NONE"</code>: Allow all content (USE WITH EXTREME CAUTION).</li>
+  <li><code>"BLOCK_ONLY_HIGH"</code>: Block content with a high probability of being harmful.</li>
+  <li><code>"BLOCK_MEDIUM_AND_ABOVE"</code>: Block content with medium or high probability (Default).</li>
+  <li><code>"BLOCK_LOW_AND_ABOVE"</code>: Block content with low, medium, or high probability.</li>
+</ul>
+You must <strong>restart Obsidian or reload the plugin</strong> after manually editing <code>data.json</code> for changes to take effect.
+`;
+		geminiSafetyInfo.style.fontSize = "var(--font-ui-smaller)";
+		geminiSafetyInfo.style.color = "var(--text-muted)";
+
+
 		const modelDesc = `
 GPT 4.1 for the best literary results. Nano and Mini should be sufficient for basic text proofreading.<br>
 Gemini 2.5 Flash is very fast and powerful. Gemini 2.5 Pro is a thinking model (slooow and powerful).<br><br>

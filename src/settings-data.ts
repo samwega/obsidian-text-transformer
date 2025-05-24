@@ -80,6 +80,23 @@ export interface TextTransformerPrompt {
     showInPromptPalette?: boolean; // Should this prompt appear in the palette?
 }
 
+export type GeminiHarmCategory = 
+	| "HARM_CATEGORY_HARASSMENT" 
+	| "HARM_CATEGORY_HATE_SPEECH" 
+	| "HARM_CATEGORY_SEXUALLY_EXPLICIT" 
+	| "HARM_CATEGORY_DANGEROUS_CONTENT";
+
+export type GeminiHarmBlockThreshold = 
+	| "BLOCK_NONE" 
+	| "BLOCK_ONLY_HIGH" 
+	| "BLOCK_MEDIUM_AND_ABOVE" 
+	| "BLOCK_LOW_AND_ABOVE";
+
+export interface GeminiSafetySetting {
+	category: GeminiHarmCategory;
+	threshold: GeminiHarmBlockThreshold;
+}
+
 export interface TextTransformerSettings {
 	openAiApiKey: string;
 	geminiApiKey: string;
@@ -95,6 +112,7 @@ export interface TextTransformerSettings {
     frequency_penalty: number; // Default frequency_penalty
     presence_penalty: number; // Default presence_penalty
     max_tokens: number; // Default max_tokens
+	geminiSafetySettings?: GeminiSafetySetting[]; // Optional: Advanced Gemini safety settings
 }
 
 export const DEFAULT_SETTINGS: TextTransformerSettings = {
@@ -112,6 +130,12 @@ export const DEFAULT_SETTINGS: TextTransformerSettings = {
     frequency_penalty: 0, // Default frequency_penalty
     presence_penalty: 0, // Default presence_penalty
     max_tokens: 2048, // Default max_tokens
+	geminiSafetySettings: [ // Default safety settings: block medium and above
+		{ category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+		{ category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+		{ category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+		{ category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+	],
 };
 
 export const DEFAULT_TEXT_TRANSFORMER_PROMPTS: TextTransformerPrompt[] = [

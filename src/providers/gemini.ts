@@ -85,6 +85,11 @@ ${oldText}
             };
         }
 
+		// Add safety settings if configured
+		if (settings.geminiSafetySettings && Array.isArray(settings.geminiSafetySettings) && settings.geminiSafetySettings.length > 0) {
+			requestBody.safetySettings = settings.geminiSafetySettings;
+		}
+
 
 		response = await requestUrl({
 			url:
